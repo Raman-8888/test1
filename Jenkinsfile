@@ -1,7 +1,6 @@
 pipeline {
     
     agent any
-    tools { dockerTool 'my-docker' }
     environment { IMAGE = "raman8888/jenkins-demo-app" }
     
     stages {
@@ -14,11 +13,9 @@ pipeline {
         stage('Push') {
             steps {
                 script {
-                    docker.withTool('my-docker') {
-                        docker.withRegistry('', 'dockerhub-creds') {
-                            docker.image("${IMAGE}:${BUILD_NUMBER}").push()
-                            docker.image("${IMAGE}:${BUILD_NUMBER}").push('latest')
-                        }
+                    docker.withRegistry('', 'dockerhub-creds') {
+                        docker.image("${IMAGE}:${BUILD_NUMBER}").push()
+                        docker.image("${IMAGE}:${BUILD_NUMBER}").push('latest')
                     }
                 }
             }
