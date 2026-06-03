@@ -13,7 +13,7 @@ pipeline {
         stage('Push') {
             steps {
                 script {
-                    docker.withRegistry('', 'dockerhub_creds') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub_creds') {
                         docker.image("${IMAGE}:${BUILD_NUMBER}").push()
                         docker.image("${IMAGE}:${BUILD_NUMBER}").push('latest')
                     }
