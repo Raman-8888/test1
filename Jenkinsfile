@@ -9,5 +9,19 @@ pipeline {
                 script { docker.build("${IMAGE}:${BUILD_NUMBER}") }
             }
         }
+        
+        stage('Push') {
+            options {
+                timeout(time: 15, unit: 'MINUTES')
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub_creds') {
+                        docker.image("${IMAGE}:${BUILD_NUMBER}").push()
+                        docker.image("${IMAGE}:latest").push()
+                    }
+                }
+            }
+        }
     }
 }
