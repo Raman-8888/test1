@@ -15,8 +15,7 @@ pipeline {
                 timeout(time: 15, unit: 'MINUTES')
             }
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                script {                    docker.image("${IMAGE}:${BUILD_NUMBER}").tag('latest')                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
                         docker.image("${IMAGE}:${BUILD_NUMBER}").push()
                         docker.image("${IMAGE}:latest").push()
                     }
